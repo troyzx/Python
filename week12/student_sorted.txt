@@ -1,0 +1,5 @@
+Cata	18	F	2	2311	
+Ciri	19	F	1	3214	
+Dave	19	M	2	4234	
+Mona	19	F	3	3435	
+Troy	20	M	3	4324	

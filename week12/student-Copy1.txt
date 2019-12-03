@@ -1,0 +1,5 @@
+Troy	20	m	3	4324	
+Mona	19	fm	3	3435	
+Cata	18	fm	2	2311	
+Ciri	19	fm	1	3214	
+Dave	19	m	2	4234	

@@ -19,5 +19,6 @@ def main(n):
     gif_name = 'created_gif.gif'
     create_gif(image_list, gif_name)
 
+
 if __name__ == "__main__":
-    main()
+    main(n)

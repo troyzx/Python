@@ -2,12 +2,13 @@
 # To add a new markdown cell, type '# %% [markdown]'
 # %% Change working directory from the workspace root to the ipynb file location. Turn this addition off with the DataScience.changeDirOnImportExport setting
 # ms-python.python added
+import matplotlib.tri as tri
 import os
 try:
-	os.chdir(os.path.join(os.getcwd(), 'week13/homework'))
-	print(os.getcwd())
+    os.chdir(os.path.join(os.getcwd(), 'week13/homework'))
+    print(os.getcwd())
 except:
-	pass
+    pass
 # %%
 import numpy as np
 from matplotlib import pyplot as plt
@@ -20,12 +21,12 @@ start = time.time()
 # set parameters
 n_samples = 10000
 n_step = 10000
-# 在（0，0）生成黑洞
-# 在以（0，0）为圆心，r=sqrt(n_samples)的圆盘内生成均匀的点
 
 # genarte data
-
 # initial condition
+# 在（0，0）生成黑洞
+# 在以（0，0）为圆心，r=10000的圆盘内生成均匀分布的粒子
+# 粒子的初速度为\mu=5的正态分布
 r = np.random.uniform(0, 10000, n_samples)
 theta = np.random.uniform(0, 2*np.pi, n_samples)
 x = r*np.cos(theta)
@@ -55,6 +56,8 @@ for step in tqdm(range(n_step)):
     vy += ay
     x += x_rand[step] + vx
     y += y_rand[step] + vy
+
+# save each single picture every 50 step and later generate them into GIF
 '''
     if (step % 50 == 0):
         plt.figure(figsize=(10,10))
@@ -71,11 +74,11 @@ for step in tqdm(range(n_step)):
 end = time.time()
 elapse = end - start
 print('total time: ' + str(elapse))
-#saveGif.main(n)
+# saveGif.main(n)
 
 
 # %%
-#Save gif
+# Save gif
 '''
 import imageio
 
@@ -104,7 +107,9 @@ if __name__ == "__main__":
 
 '''
 # %%
-plt.figure(figsize=(10, 10))
+# plot the scatter and the hist
+print("ploting scatter and hist...")
+plt.figure(figsize=(8, 8))
 grid = plt.GridSpec(4, 4, wspace=0.5, hspace=0.5)
 
 main_ax = plt.subplot(grid[1:4, 0:3])
@@ -113,58 +118,43 @@ plt.xlim(-n_samples, n_samples)
 plt.ylim(-n_samples, n_samples)
 
 y_hist = plt.subplot(grid[1:4, 3], xticklabels=[], sharey=main_ax)
-plt.hist(y, 20, range=(-n_samples, n_samples), orientation='horizontal', color='blue')
+plt.hist(y, 20, range=(-n_samples, n_samples),
+         orientation='horizontal', color='blue')
 
 x_hist = plt.subplot(grid[0, 0:3], xticklabels=[], sharex=main_ax)
-plt.hist(x, 20, range=(-n_samples, n_samples), orientation='vertical', color='blue')
+plt.hist(x, 20, range=(-n_samples, n_samples),
+         orientation='vertical', color='blue')
 
 plt.show()
 
 
 # %%
+# plot contour
+print("ploting contour...")
 v = (vx**2+vy**2)/2
-
-
-# %%
-data = np.concatenate([x.reshape(-1,1),y.reshape(-1,1),v.reshape(-1,1)], axis=1)
+data = np.concatenate(
+    [x.reshape(-1, 1), y.reshape(-1, 1), v.reshape(-1, 1)], axis=1)
 len(data)
 
-
-# %%
-data
-
-
-# %%
-mask1 = abs(data[:,0])<1000
+# set x,y limit to 1000
+mask1 = abs(data[:, 0]) < 1000
 DATA = data[mask1]
-mask2 = abs(DATA[:,1])<1000
+mask2 = abs(DATA[:, 1]) < 1000
 DATA = DATA[mask2]
-xi = DATA[:,0]
-yi = DATA[:,1]
-zi = DATA[:,2]
+xi = DATA[:, 0]
+yi = DATA[:, 1]
+zi = DATA[:, 2]
 
-
-# %%
-DATA
-
-
-# %%
-import matplotlib.tri as tri 
+# Linear triangulation interpolate
 triang = tri.Triangulation(xi, yi)
 interpolator = tri.LinearTriInterpolator(triang, zi)
 X, Y = np.meshgrid(xi, yi)
 Z = interpolator(X, Y)
 
 
-# %%
-xi
-
-
-# %%
-plt.figure(figsize=(10,6))
-#填充颜色，f即filled
-#plt.contourf(X,Y,Z)
-#画等高线
-plt.contour(X,Y,Z)
+plt.figure(figsize=(10, 6))
+# 填充颜色，f即filled
+# plt.contourf(X,Y,Z)
+# 画等高线
+plt.contour(X, Y, Z)
 plt.show()
-

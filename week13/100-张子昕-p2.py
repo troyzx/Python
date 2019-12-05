@@ -137,20 +137,21 @@ print("ploting contour...")
 v = (vx**2+vy**2)/2
 data = np.concatenate(
     [x.reshape(-1, 1), y.reshape(-1, 1), v.reshape(-1, 1)], axis=1)
-len(data)
 
-# set x,y limit to 1000
 mask = (data[:, 0]**2+data[:, 1]**2 < 1000000)
 DATA = data[mask]
-xi = DATA[:, 0]
-yi = DATA[:, 1]
-zi = DATA[:, 2]
-X, Y = np.meshgrid(xi, yi)
-grid_z0 = griddata((xi, yi),
-                   zi, (X, Y), method='nearest')
+X = DATA[:, 0]
+Y = DATA[:, 1]
+Z = DATA[:, 2]
+
 fig, ax = plt.subplots(1, figsize=(10, 8))
-cntr = ax.contourf(X, Y, grid_z0)
+
+ax.tricontour(X, Y, Z, levels=14, linewidths=0.5, colors='k')
+cntr = ax.tricontourf(X, Y, Z, levels=14, cmap="RdBu_r")
+
 fig.colorbar(cntr, ax=ax)
-# plt.xlim(-1000,1000)
-# plt.ylim(-1000,1000)
+ax.plot(X, Y, 'ko', ms=3)
+ax.set(xlim=(-500, 500), ylim=(-500, 500))
+ax.set_title('tricontour (%d points)' % len(DATA))
+
 plt.show()

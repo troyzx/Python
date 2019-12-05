@@ -15,6 +15,7 @@ import matplotlib.tri as tri
 import numpy as np
 from matplotlib import pyplot as plt
 from tqdm import tqdm
+from scipy.interpolate import griddata
 import time
 
 time.perf_counter()
@@ -139,24 +140,17 @@ data = np.concatenate(
 len(data)
 
 # set x,y limit to 1000
-mask1 = abs(data[:, 0]) < 1000
-DATA = data[mask1]
-mask2 = abs(DATA[:, 1]) < 1000
-DATA = DATA[mask2]
+mask = (data[:, 0]**2+data[:, 1]**2 < 1000000)
+DATA = data[mask]
 xi = DATA[:, 0]
 yi = DATA[:, 1]
 zi = DATA[:, 2]
-
-# Linear triangulation interpolate
-triang = tri.Triangulation(xi, yi)
-interpolator = tri.LinearTriInterpolator(triang, zi)
 X, Y = np.meshgrid(xi, yi)
-Z = interpolator(X, Y)
-
-
-plt.figure(figsize=(10, 6))
-# 填充颜色，f即filled
-# plt.contourf(X,Y,Z)
-# 画等高线
-plt.contour(X, Y, Z)
+grid_z0 = griddata((xi, yi),
+                   zi, (X, Y), method='nearest')
+fig, ax = plt.subplots(1, figsize=(10, 8))
+cntr = ax.contourf(X, Y, grid_z0)
+fig.colorbar(cntr, ax=ax)
+# plt.xlim(-1000,1000)
+# plt.ylim(-1000,1000)
 plt.show()

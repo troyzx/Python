@@ -1,8 +1,9 @@
 # To add a new cell, type '# %%'
 # To add a new markdown cell, type '# %% [markdown]'
-# %% Change working directory from the workspace root to the ipynb file location. Turn this addition off with the DataScience.changeDirOnImportExport setting
+# %% Change working directory from the workspace root to the ipynb file
+# location. Turn this addition off with the DataScience.
+# changeDirOnImportExport setting
 # ms-python.python added
-import matplotlib.tri as tri
 import os
 try:
     os.chdir(os.path.join(os.getcwd(), 'week13/homework'))
@@ -10,6 +11,7 @@ try:
 except:
     pass
 # %%
+import matplotlib.tri as tri
 import numpy as np
 from matplotlib import pyplot as plt
 from tqdm import tqdm

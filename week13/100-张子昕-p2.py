@@ -4,18 +4,10 @@
 # location. Turn this addition off with the DataScience.
 # changeDirOnImportExport setting
 # ms-python.python added
-import os
-try:
-    os.chdir(os.path.join(os.getcwd(), 'week13/homework'))
-    print(os.getcwd())
-except:
-    pass
 # %%
-import matplotlib.tri as tri
 import numpy as np
 from matplotlib import pyplot as plt
 from tqdm import tqdm
-from scipy.interpolate import griddata
 import time
 
 time.perf_counter()

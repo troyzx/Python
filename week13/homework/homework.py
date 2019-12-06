@@ -11,11 +11,9 @@ try:
 except:
     pass
 # %%
-import matplotlib.tri as tri
 import numpy as np
 from matplotlib import pyplot as plt
 from tqdm import tqdm
-from scipy.interpolate import griddata
 import time
 
 time.perf_counter()

@@ -22,7 +22,7 @@ n_step = 10000
 r = np.random.uniform(0, 10000, n_samples)
 theta = np.random.uniform(0, 2*np.pi, n_samples)
 x = r*np.cos(theta)
-y = r*np.sin(theta)
+y = r * np.sin(theta)
 vx = np.random.normal(size=n_samples)*5
 vy = np.random.normal(size=n_samples)*5
 
@@ -31,16 +31,16 @@ x_rand = []
 y_rand = []
 print("Genarating data>>>")
 for i in tqdm(range(n_step)):
-    x_rand.append(np.random.random(n_samples) *
-                  np.cos(np.random.uniform(0, 2*np.pi, n_samples)))
-    y_rand.append(np.random.random(n_samples) *
-                  np.sin(np.random.uniform(0, 2*np.pi, n_samples)))
+    r = np.random.random(n_samples)
+    theta = np.random.uniform(0, 2*np.pi, n_samples)
+    x_rand.append(r*np.cos(theta))
+    y_rand.append(r*np.sin(theta))
 
 # caculate
 print("Caculating>>>")
 n = 0
 for step in tqdm(range(n_step)):
-    r2 = x**2 + y**2
+    r2 = x ** 2 + y ** 2
     F = 100000 / r2**1.5
     ax = -F * x
     ay = -F * y
